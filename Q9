@@ -1,0 +1,113 @@
+using System;
+using System.Collections.Generic;
+
+public class Program
+{
+    static void Main(string[] args)
+    {
+        QueueStateNodes queueStateNodes = new QueueStateNodes();
+        StateNode node1 = new StateNode(1);
+        StateNode node2 = new StateNode(2);
+        StateNode node3 = new StateNode(3);
+        StateNode node4 = new StateNode(4);
+        StateNode node5 = new StateNode(5);
+        StateNode node6 = new StateNode(6);
+        StateNode node7 = new StateNode(7);
+        StateNode node8 = new StateNode(8);
+        StateNode node9 = new StateNode(9);
+
+        queueStateNodes.Enqueue(node1);
+        queueStateNodes.Enqueue(node2);
+        queueStateNodes.Enqueue(node3);
+        queueStateNodes.Enqueue(node4);
+        queueStateNodes.Enqueue(node5);
+        queueStateNodes.Dequeue();
+        queueStateNodes.Enqueue(node6);
+        queueStateNodes.Dequeue();
+        queueStateNodes.Enqueue(node7);
+        queueStateNodes.Enqueue(node8);
+        queueStateNodes.Dequeue();
+        queueStateNodes.Enqueue(node9);
+        queueStateNodes.PrintAllLinkedStateNodes(); // 9-8-7-6-5-4
+    }
+}
+
+class StateNode
+{
+    public int code { get; }
+    public StateNode? nextStateNode { get; set; }
+
+    public StateNode(int code)
+    {
+        this.code = code;
+        this.nextStateNode = null;
+    }
+}
+
+class LinkedStateNodes
+{
+    protected StateNode? head;
+
+    public LinkedStateNodes()
+    {
+        head = null;
+    }
+
+  
+    public void PrintAllLinkedStateNodes()
+    {
+        StateNode? current = head;
+        while (current != null)
+        {
+            Console.Write(current.code + "-");
+            current = current.nextStateNode;
+        }
+    }
+
+  
+    public void Append(StateNode newStateNode)
+    {
+        if (head == null)
+        {
+            head = newStateNode;
+        }
+        else
+        {
+            StateNode? current = head;
+            while (current.nextStateNode != null)
+            {
+                current = current.nextStateNode;
+            }
+            current.nextStateNode = newStateNode;
+        }
+    }
+
+
+    public StateNode? RemoveFirst()
+    {
+        if (head == null)
+        {
+            return null;
+        }
+        else
+        {
+            StateNode? removedNode = head;
+            head = head.nextStateNode;
+            return removedNode;
+        }
+    }
+}
+
+class QueueStateNodes : LinkedStateNodes
+{
+   
+    public void Enqueue(StateNode newStateNode)
+    {
+        Append(newStateNode);
+    }
+
+    public StateNode? Dequeue()
+    {
+        return RemoveFirst();
+    }
+}
