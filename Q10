@@ -1,0 +1,68 @@
+using System;
+
+public class Program
+{
+	public static void Main(string[] args)
+	{
+		NumNode headNumNode=new NumNode(5);
+		NumNode node2 = new NumNode(5);
+		NumNode node3=new NumNode(10);
+		NumNode node4=new NumNode(15);
+		NumNode node5=new NumNode(15);
+		NumNode node6=new NumNode(15);
+		NumNode node7=new NumNode(20);
+		NumNode node8=new NumNode(25);
+	  	NumNode node9=new NumNode(25);
+
+		// here we create the linked list
+		headNumNode.nextNumNode = node2;
+		node2.nextNumNode = node3;
+		node3.nextNumNode = node4;
+		node4.nextNumNode = node5;
+		node5.nextNumNode = node6;
+		node6.nextNumNode = node7;
+		node7.nextNumNode = node8;
+		node8.nextNumNode = node9;
+		
+		NumNode? noRepetitionsList=Program.RepetitionsRemoval(headNumNode);
+		NumNode? next = noRepetitionsList;
+		while(next!=null)
+		{
+			Console.Write($"{next.number}-");
+			next = next.nextNumNode;
+		}
+		// Expected result: 5-10-15-20-25
+	}
+	
+public static NumNode? RepetitionsRemoval(NumNode? numNodeLinkedList)
+{
+    NumNode? currentNode = numNodeLinkedList;
+
+    while (currentNode != null && currentNode.nextNumNode != null)
+    {
+        if (currentNode.number == currentNode.nextNumNode.number)
+        {
+            currentNode.nextNumNode = currentNode.nextNumNode.nextNumNode;
+        }
+        else
+        {
+            currentNode = currentNode.nextNumNode;
+        }
+    }
+
+    return numNodeLinkedList;
+}
+
+}
+
+public class NumNode
+{
+	public int number { get; }
+	public NumNode? nextNumNode { get; set; }
+  
+	public NumNode(int number)
+	{
+		this.number = number;
+		this.nextNumNode = null;
+	}
+}
