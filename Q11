@@ -1,0 +1,145 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+public class Node
+{
+	public Node? left { get; set; } = null;
+	public int value { get;}
+	public Node? right { get; set; } = null;
+	
+	public Node(int value)
+	{
+		this.value = value;
+	}
+}
+
+public class BinarySearchTree
+{
+	public Node? root { get; set; }
+
+	public BinarySearchTree()
+	{
+		this.root = null;
+	}
+
+public void Insert(int value)
+{
+    if (root == null)
+    {
+        root = new Node(value);
+        return;
+    }
+
+    Node currentNode = root;
+    while (true)
+    {
+        if (value < currentNode.value)
+        {
+            if (currentNode.left == null)
+            {
+                currentNode.left = new Node(value);
+                break;
+            }
+            else
+            {
+                currentNode = currentNode.left;
+            }
+        }
+        else
+        {
+            if (currentNode.right == null)
+            {
+                currentNode.right = new Node(value);
+                break;
+            }
+            else
+            {
+                currentNode = currentNode.right;
+            }
+        }
+    }
+}
+
+
+public Node? Lookup(int value)
+{
+    Node currentNode = root;
+    while (currentNode != null)
+    {
+        if (value == currentNode.value)
+        {
+            return currentNode;
+        }
+        else if (value < currentNode.value)
+        {
+            currentNode = currentNode.left;
+        }
+        else
+        {
+            currentNode = currentNode.right;
+        }
+    }
+
+    return null;
+}
+
+	
+	// ##################################################################
+	
+public static int GetMaxDepth(Node? node)
+{
+    if (node == null)
+    {
+        return 0;
+    }
+
+    int leftDepth = GetMaxDepth(node.left);
+    int rightDepth = GetMaxDepth(node.right);
+
+    return Math.Max(leftDepth, rightDepth) + 1;
+}
+
+	// ##################################################################
+	
+	// Inorder: Left-Parent-Right
+public static void InOrderDFS(Node? node)
+{
+    if (node == null)
+    {
+        return;
+    }
+
+    InOrderDFS(node.left);
+    Console.Write(node.value + " ");
+    InOrderDFS(node.right);
+}
+
+
+	// Preorder: Parent-Left-Right
+public static void PostOrderDFS(Node? node)
+{
+    if (node == null)
+    {
+        return;
+    }
+
+    PostOrderDFS(node.left);
+    PostOrderDFS(node.right);
+    Console.Write(node.value + " ");
+}
+
+	
+	// Postorder: Left-Right-Parent
+public static void PreOrderDFS(Node? node)
+{
+    if (node == null)
+    {
+        return;
+    }
+
+    Console.Write(node.value + " ");
+    PreOrderDFS(node.left);
+    PreOrderDFS(node.right);
+}
+
+}
